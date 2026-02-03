@@ -1,7 +1,7 @@
 package com.thetestingacademy.pojos.responsePOJO;
 
 import com.thetestingacademy.pojos.requestPOJO.Booking;
-import com.thetestingacdemy.pojos.requestPOJO.Booking;
+import com.thetestingacademy.pojos.requestPOJO.Booking;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
