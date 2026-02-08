@@ -2,8 +2,13 @@ package com.thetestingacademy.modules;
 
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
+import com.thetestingacademy.pojos.requestPOJO.Auth;
 import com.thetestingacademy.pojos.requestPOJO.Booking;
 import com.thetestingacademy.pojos.requestPOJO.Bookingdates;
+import com.thetestingacademy.pojos.responsePOJO.BookingResponse;
+import com.thetestingacademy.pojos.responsePOJO.InvalidTokenResponse;
+import com.thetestingacademy.pojos.responsePOJO.TokenResponse;
+import org.checkerframework.checker.units.qual.A;
 
 public class PayloadManager {
 
@@ -54,5 +59,61 @@ public class PayloadManager {
         String jsonStringBooking = gson.toJson(booking);
         return jsonStringBooking;
     }
+
+    //For response, we need to convert JSON into Java Object
+    //Deserialization
+
+    public BookingResponse bookingResponsejava(String responseString)
+    {
+        gson = new Gson();
+        BookingResponse bookingResponse = gson.fromJson(responseString, BookingResponse.class);
+        return bookingResponse;
+    }
+
+    public String createPayloadBookingFakerJS()
+    {
+        faker = new Faker();
+        Booking booking = new Booking();
+        booking.setFirstname(faker.name().firstName());
+        booking.setLastname(faker.name().lastName());
+        booking.setTotalprice(faker.random().nextInt(1,1000));
+        booking.setDepositpaid(faker.random().nextBoolean());
+
+        Bookingdates bookingdates = new Bookingdates();
+        bookingdates.setCheckin("2018-01-01");
+        bookingdates.setCheckout("2019-01-01");
+
+        booking.setBookingdates(bookingdates);
+        booking.setAdditionalneeds("Breakfast");
+        gson = new Gson();
+        String jsongStringBooking = gson.toJson(booking);
+        return  jsongStringBooking;
+    }
+
+    public String setAuthPayload()
+    {
+        Auth auth = new Auth();
+        auth.setUsername("admin");
+        auth.setPassword("password123");
+
+        gson = new Gson();
+        String jsonAuthPayload = gson.toJson(auth);
+        return  jsonAuthPayload;
+    }
+
+    public String getTokenFromJSON(String tokenResponsePayload)
+    {
+        gson =new Gson();
+        TokenResponse tokenresponse1 =gson.fromJson(tokenResponsePayload,TokenResponse.class);
+        return  tokenresponse1.getToken();
+    }
+
+    public String invalidTokenResponse(String invalidResponsePayload)
+    {
+        gson = new Gson();
+        InvalidTokenResponse tokenResponse1= gson.fromJson(invalidResponsePayload, InvalidTokenResponse.class);
+        return tokenResponse1.getReason();
+    }
+
 
 }
