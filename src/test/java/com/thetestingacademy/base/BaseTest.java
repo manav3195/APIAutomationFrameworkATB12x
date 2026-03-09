@@ -48,5 +48,19 @@ public class BaseTest {
         System.out.println("Finished the test");
     }
 
+    public String getToken()
+    {
+        requestSpecification = RestAssured.given();
+        requestSpecification.baseUri(APIConstants.BASE_URL).basePath(APIConstants.AUTH_URL);
+        String payload = payloadManager.setAuthPayload();
+
+        response = RestAssured.given(requestSpecification).contentType(ContentType.JSON).body(payload).when().post();
+
+        String token = payloadManager.getTokenFromJSON(response.asString());
+        return token;
+
+    }
+
+
 
 }

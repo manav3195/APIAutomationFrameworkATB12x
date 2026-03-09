@@ -5,9 +5,8 @@ import com.google.gson.Gson;
 import com.thetestingacademy.pojos.requestPOJO.Auth;
 import com.thetestingacademy.pojos.requestPOJO.Booking;
 import com.thetestingacademy.pojos.requestPOJO.Bookingdates;
-import com.thetestingacademy.pojos.responsePOJO.BookingResponse;
-import com.thetestingacademy.pojos.responsePOJO.InvalidTokenResponse;
-import com.thetestingacademy.pojos.responsePOJO.TokenResponse;
+import com.thetestingacademy.pojos.requestPOJO.LoginRequest;
+import com.thetestingacademy.pojos.responsePOJO.*;
 import org.checkerframework.checker.units.qual.A;
 
 public class PayloadManager {
@@ -19,6 +18,30 @@ public class PayloadManager {
     {
         Booking booking = new Booking();
         booking.setFirstname("Pramod");
+        booking.setLastname("Dutta");
+        booking.setTotalprice(112);
+        booking.setDepositpaid(true);
+
+        Bookingdates bookingdates = new Bookingdates();
+        bookingdates.setCheckin("2018-01-01");
+        bookingdates.setCheckout("2019-01-01");
+
+        booking.setBookingdates(bookingdates);
+        booking.setAdditionalneeds("Breakfast");
+
+        System.out.println(booking);
+
+        //Java object to JSON
+        gson = new Gson();
+        String jsonBookingString = gson.toJson(booking);
+        return jsonBookingString;
+
+    }
+
+    public String fullUpdatePayloadAsString()
+    {
+        Booking booking = new Booking();
+        booking.setFirstname("Lucky");
         booking.setLastname("Dutta");
         booking.setTotalprice(112);
         booking.setDepositpaid(true);
@@ -114,6 +137,34 @@ public class PayloadManager {
         InvalidTokenResponse tokenResponse1= gson.fromJson(invalidResponsePayload, InvalidTokenResponse.class);
         return tokenResponse1.getReason();
     }
+
+    public String setLoginData()
+    {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("p09c6vr33tp@dev.nondon.store");
+        loginRequest.setPassword("Manav@1234");
+        loginRequest.setRemember(false);
+        loginRequest.setRecaptchaResponseField("");
+        gson=new Gson();
+        String jsonPayloadString= gson.toJson(loginRequest);
+        return  jsonPayloadString;
+
+    }
+
+    public LoginResponse getLoginData(String loginResponseEx)
+    {
+            gson=new Gson();
+            LoginResponse loginResponse=gson.fromJson(loginResponseEx,LoginResponse.class);
+            return loginResponse;
+    }
+
+    public GetBookingResponse getResponseFromJSON(String response)
+    {
+        gson = new Gson();
+        GetBookingResponse getBookingResponse=gson.fromJson(response,GetBookingResponse.class);
+        return getBookingResponse;
+    }
+
 
 
 }
